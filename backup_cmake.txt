@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.28.1)
+
+project(tasks_stack VERSION 0.1 DESCRIPTION "To-do app" LANGUAGES CXX)
+
+
+set(CMAKE_CXX_STANDARD 20)
+
+if(DEBUG)
+  add_definitions(-DDEBUG)
+endif()
+
+option(DEBUG "Debug mode" ON)
+
+
+add_library(print_stack STATIC include/print_stack.cpp include/print_stack.hpp)
+add_library(view STATIC include/view.cpp include/view.hpp)
+add_library(model STATIC include/model.cpp include/model.hpp)
+add_library(viewmodel STATIC include/viewmodel.cpp include/viewmodel.hpp)
+
+
+target_include_directories(print_stack PUBLIC include)
+target_include_directories(view PUBLIC include)
+target_include_directories(model PUBLIC include)
+target_include_directories(viewmodel PUBLIC include)
+
+
+add_subdirectory(third-party/nlohmann_json)
+
+add_executable(tasks_stack
+              src/main.cpp
+              )
+
+target_link_libraries(tasks_stack PUBLIC 
+                                        print_stack
+                                        view
+                                        model
+                                        viewmodel
+                                        nlohmann_json::nlohmann_json)
+
+target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
