@@ -19,6 +19,8 @@ add_executable(todo
               include/view.cpp
               include/viewmodel.cpp
               include/color.cpp
+              include/command.cpp
+              include/print_stack.cpp
               #              third-party/nlohmann/single_include/nlohmann/json.hpp
               )
 
